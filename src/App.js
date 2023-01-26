@@ -1,7 +1,8 @@
 import React from 'react';
 import { Route, Switch } from 'react-router-dom';
 import Login from './pages/Login';
-import Main from './pages/Main';
+import Meals from './pages/Meals';
+import Drinks from './pages/Drinks';
 import Profile from './pages/Profile';
 
 function App() {
@@ -9,9 +10,9 @@ function App() {
     <div className="meals">
       <Switch>
         <Route exact path="/" component={ Login } />
-        <Route exact path="/meals" component={ Main } />
-        <Route exact path="/drinks" component={ Main } />
         <Route exact path="/profile" component={ Profile } />
+        <Route exact path="/meals" component={ Meals } />
+        <Route exact path="/drinks" component={ Drinks } />
       </Switch>
     </div>
   );

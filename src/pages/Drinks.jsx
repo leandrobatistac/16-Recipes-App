@@ -1,8 +1,9 @@
 import React from 'react';
+import { connect } from 'react-redux';
 import Footer from '../components/Footer';
 import Recipes from '../components/Recipes';
 
-class Main extends React.Component {
+class Drinks extends React.Component {
   render() {
     return (
       <div>
@@ -13,4 +14,4 @@ class Main extends React.Component {
   }
 }
 
-export default Main;
+export default connect()(Drinks);

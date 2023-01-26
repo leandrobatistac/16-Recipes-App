@@ -1,13 +1,17 @@
-import React from 'react';
+import React, { Component } from 'react';
+import { connect } from 'react-redux';
+import CardDrink from './CardDrink';
+import CardMeal from './CardMeal';
 
-class Recipes extends React.Component {
+class Recipes extends Component {
   render() {
     return (
       <div>
-        Receitas
+        { window.location.pathname === '/meals' && <CardMeal /> }
+        { window.location.pathname === '/drinks' && <CardDrink /> }
       </div>
     );
   }
 }
 
-export default Recipes;
+export default connect()(Recipes);

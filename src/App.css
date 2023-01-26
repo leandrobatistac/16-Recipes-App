@@ -39,6 +39,10 @@
   width: 100%;
 }
 
+.cardImage {
+  width: 150px;
+}
+
 .meals > .logo {
   animation: shake 1.5s infinite ease;
   color: aliceblue;
