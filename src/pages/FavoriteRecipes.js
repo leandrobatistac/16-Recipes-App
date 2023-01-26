@@ -2,12 +2,12 @@ import React from 'react';
 import Header from '../components/Header';
 import Footer from '../components/Footer';
 
-class Profile extends React.Component {
+class FavoriteRecipes extends React.Component {
   render() {
     return (
       <div>
         <Header
-          title="Profile"
+          title="Favorite Recipes"
           haveSearch={ false }
         />
         <Footer />
@@ -15,4 +15,4 @@ class Profile extends React.Component {
     );
   }
 }
-export default Profile;
+export default FavoriteRecipes;
