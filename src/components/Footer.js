@@ -8,11 +8,19 @@ class Footer extends React.Component {
     return (
       <div data-testid="footer" className="footer">
         <Link to="/drinks">
-          <img alt="drinkIcon" data-testid="drinks-bottom-btn" src={ drinkIcon } />
+          <img
+            alt="drinkIcon"
+            data-testid="drinks-bottom-btn"
+            src={ drinkIcon }
+          />
         </Link>
 
         <Link to="/meals">
-          <img alt="mealIcon" data-testid="meals-bottom-btn" src={ mealIcon } />
+          <img
+            alt="mealIcon"
+            data-testid="meals-bottom-btn"
+            src={ mealIcon }
+          />
         </Link>
       </div>
     );
