@@ -1,11 +1,13 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { getCategoryDrinks, getDrinks } from '../helpers/fetchAPI';
+import { Link } from 'react-router-dom';
+import { getCategoryDrinks, getDrinks, getDrinksByCategory } from '../helpers/fetchAPI';
 
 class CardDrink extends Component {
   state = {
     objectDrinks: [],
     categories: [],
+    toggleButton: false,
   };
 
   componentDidMount() {
@@ -27,38 +29,69 @@ class CardDrink extends Component {
     this.setState({ categories: fiveCategories });
   };
 
+  buttonFilterByCategory = async (category) => {
+    const { toggleButton } = this.state;
+
+    if (toggleButton === false) {
+      const size = 12;
+      const objectDrinks = await getDrinksByCategory(category);
+      const twelveDrinks = objectDrinks.drinks.slice(0, size);
+      this.setState({ objectDrinks: twelveDrinks, toggleButton: true });
+    } else {
+      this.getObjectDrinks();
+      this.setState({ toggleButton: false });
+    }
+  };
+
   render() {
     const { objectDrinks, categories } = this.state;
     return (
-      <div>
-        { categories.map((e) => (
+      <div className="globalContainerDrinks" data-testid="card-drink">
+        Drinks
+        <div className="buttonContainer">
+          { categories.map((e) => (
+            <button
+              key={ e.strCategory }
+              data-testid={ `${e.strCategory}-category-filter` }
+              onClick={ () => this.buttonFilterByCategory(e.strCategory) }
+            >
+              { e.strCategory }
+            </button>
+          )) }
+
           <button
-            key={ e.strCategory }
-            data-testid={ `${e.strCategory}-category-filter` }
+            data-testid="All-category-filter"
+            onClick={ () => this.getObjectDrinks() }
           >
-            { e.strCategory }
+            All
           </button>
-        )) }
+        </div>
 
-        { objectDrinks.map((e, index) => (
+        <div className="cardContainer">
+          { objectDrinks.map((e, index) => (
+            <Link
+              to={ `drinks/${e.idDrink}` }
+              key={ e.idDrink }
+            >
+              <div
+                data-testid={ `${index}-recipe-card` }
+                key={ index }
+              >
+                <p data-testid={ `${index}-card-name` }>
+                  { e.strDrink }
+                </p>
 
-          <div
-            data-testid={ `${index}-recipe-card` }
-            key={ index }
-            className="cardContainer"
-          >
-            <p data-testid={ `${index}-card-name` }>
-              { e.strDrink }
-            </p>
+                <img
+                  alt={ e.strDrink }
+                  src={ e.strDrinkThumb }
+                  data-testid={ `${index}-card-img` }
+                  className="cardImage"
+                />
+              </div>
+            </Link>
+          )) }
+        </div>
 
-            <img
-              alt={ e.strDrink }
-              src={ e.strDrinkThumb }
-              data-testid={ `${index}-card-img` }
-              className="cardImage"
-            />
-          </div>
-        )) }
       </div>
     );
   }
