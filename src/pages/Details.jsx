@@ -5,7 +5,7 @@ class Details extends React.Component {
   render() {
     return (
       <div>
-        Details
+        Detalhes
       </div>
     );
   }
