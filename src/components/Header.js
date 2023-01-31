@@ -32,7 +32,7 @@ class Header extends Component {
             <img data-testid="search-top-btn" src={ searchIcon } alt="seachImg" />
           </button>
         )}
-        {(search) && <SearchBar />}
+        {(search) && <SearchBar history={ history } />}
       </div>
     );
   }
