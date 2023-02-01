@@ -5,7 +5,7 @@ import Profile from './pages/Profile';
 import DoneRecipes from './pages/DoneRecipes';
 import FavoriteRecipes from './pages/FavoriteRecipes';
 import Recipes from './pages/Recipes';
-import Details from './pages/Details';
+import RecipeDetails from './pages/RecipeDetails';
 
 function App() {
   return (
@@ -19,9 +19,17 @@ function App() {
         <Route exact path="/drinks" component={ Recipes } />
         <Route
           exact
-          path="/meals/:id-da-receita"
+          path="/meals/:id"
           render={
-            (props) => (<Details { ...props } />)
+            (props) => (<RecipeDetails { ...props } />)
+          }
+        />
+
+        <Route
+          exact
+          path="/drinks/:id"
+          render={
+            (props) => (<RecipeDetails { ...props } />)
           }
         />
       </Switch>

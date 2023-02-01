@@ -44,10 +44,21 @@ body {
   width: 1900px;
 }
 
+.recipeDetailPhoto {
+  height: 50px;
+  width: 50px;
+}
+
 .cardContainer {
   display: flex;
   flex-basis: 100%;
-  height: 0;
+}
+
+.cardName {
+  height: 50px;
+  margin-top: 50%;
+  text-align: center;
+  width: 150px;
 }
 
 .cardImage {

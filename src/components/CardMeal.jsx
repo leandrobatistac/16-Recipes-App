@@ -77,7 +77,7 @@ class CardMeal extends Component {
                 data-testid={ `${index}-recipe-card` }
                 key={ index }
               >
-                <p data-testid={ `${index}-card-name` }>
+                <p data-testid={ `${index}-card-name` } className="cardName">
                   { e.strMeal }
                 </p>
 
