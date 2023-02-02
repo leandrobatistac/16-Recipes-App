@@ -44,6 +44,6 @@ describe('Verifica se a Página de Profile', () => {
     renderWithRouterAndRedux(<Profile />);
     const botao = screen.getByRole('button', { name: /logout/i });
     fireEvent.click(botao);
-    //pão
+    // pão
   });
 });
