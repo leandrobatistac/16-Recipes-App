@@ -8,6 +8,8 @@ class RecipeDetails extends React.Component {
     typeRecipe: '',
     objectRecipe: {},
     arrayIngredients: [],
+    recomendations: [],
+    buttonClick: false,
   };
 
   async componentDidMount() {
@@ -17,7 +19,9 @@ class RecipeDetails extends React.Component {
     const { match: { params: { id } }, history } = this.props;
     if (history.location.pathname.includes('/meals')) {
       const meal = await getMealByID(id);
+      const recomendationsSize = 6;
       const drinksRecomendations = await getDrinks();
+      const sixRecomendations = drinksRecomendations.drinks.slice(0, recomendationsSize);
       const object = meal.meals[0];
       const newArray = array
         .map((_, index) => (object[`strMeasure${index + 1}`] !== null
@@ -29,11 +33,14 @@ class RecipeDetails extends React.Component {
         typeRecipe: 'Meal',
         objectRecipe: object,
         arrayIngredients: newArray,
+        recomendations: sixRecomendations,
       });
     }
 
     if (history.location.pathname.includes('/drinks')) {
+      const recomendationsSize = 6;
       const mealsRecomendations = await getMeals();
+      const sixRecomendations = mealsRecomendations.meals.slice(0, recomendationsSize);
       const drink = await getDrinkByID(id);
       const object = drink.drinks[0];
       const newArray = array
@@ -46,12 +53,27 @@ class RecipeDetails extends React.Component {
         typeRecipe: 'Drink',
         objectRecipe: object,
         arrayIngredients: newArray,
+        recomendations: sixRecomendations,
       });
     }
   }
 
+  shareButton = () => {
+    const { history } = this.props;
+    this.setState({ buttonClick: true });
+    const link = history.location.pathname;
+    const url = 'http://localhost:3000';
+    const linkCompleto = url.concat(link);
+    navigator.clipboard.writeText(linkCompleto);
+  };
+
   render() {
-    const { typeRecipe, objectRecipe, arrayIngredients } = this.state;
+    const { typeRecipe,
+      objectRecipe,
+      arrayIngredients,
+      recomendations,
+      buttonClick } = this.state;
+    const { history } = this.props;
     return (
       <div>
         <img
@@ -94,6 +116,59 @@ class RecipeDetails extends React.Component {
           data-testid="video"
         /> }
 
+        <button
+          type="button"
+          data-testid="share-btn"
+          onClick={ this.shareButton }
+        >
+          Compartilhar Receita
+        </button>
+
+        { buttonClick ? <p data-testid="linkCopied">Link copied!</p> : null }
+
+        <button
+          type="button"
+          data-testid="favorite-btn"
+        >
+          Favoritar Receita
+        </button>
+
+        <button
+          type="button"
+          data-testid="start-recipe-btn"
+          className="startButton"
+          onClick={ typeRecipe === 'Meal'
+            ? () => history.push(`${objectRecipe.idMeal}/in-progress`)
+            : () => history.push(`${objectRecipe.idDrink}/in-progress`) }
+        >
+          Iniciar Receita
+        </button>
+
+        <div className="carrossel">
+          { recomendations.map((e, index) => (
+            <div
+              className="containerItem"
+              key={ index }
+              data-testid={ `${index}-recommendation-card` }
+            >
+              <img
+                src={ typeRecipe === 'Meal' ? e.strDrinkThumb : e.strMealThumb }
+                alt="recomendation"
+                style={ {
+                  maxWidth: '100px',
+                } }
+              />
+              <p
+                data-testid={ `${index}-recommendation-title` }
+              >
+                { typeRecipe === 'Meal'
+                  ? e.strDrink
+                  : e.strMeal }
+              </p>
+            </div>
+          )) }
+        </div>
+
       </div>
     );
   }
@@ -107,6 +182,7 @@ RecipeDetails.propTypes = {
   }).isRequired,
 
   history: PropTypes.shape({
+    push: PropTypes.func,
     location: PropTypes.shape({
       pathname: PropTypes.string,
     }),

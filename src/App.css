@@ -10,6 +10,22 @@
   width: 100%;
 }
 
+.carrossel {
+  display: grid;
+  grid-row-gap: 1rem;
+  grid-template-columns: repeat(10, 50vw);
+  grid-template-rows: 1fr;
+  overflow: scroll;
+  padding: 0 15px;
+  scroll-padding: 1rem;
+  scroll-snap-type: both mandatory;
+  width: 320px;
+}
+
+.containerItem {
+  width: 150px;
+}
+
 .rocksGlass {
   animation: shake 1s infinite ease;
   max-height: 80vh;
@@ -52,6 +68,16 @@ body {
 .cardContainer {
   display: flex;
   flex-basis: 100%;
+}
+
+.startButton {
+  bottom: 0;
+  display: flex;
+  height: 40px;
+  justify-content: center;
+  left: 0;
+  position: fixed;
+  width: 10%;
 }
 
 .cardName {

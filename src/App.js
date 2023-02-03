@@ -6,6 +6,7 @@ import DoneRecipes from './pages/DoneRecipes';
 import FavoriteRecipes from './pages/FavoriteRecipes';
 import Recipes from './pages/Recipes';
 import RecipeDetails from './pages/RecipeDetails';
+import RecipeInProgress from './pages/RecipeInProgress';
 
 function App() {
   return (
@@ -30,6 +31,22 @@ function App() {
           path="/drinks/:id"
           render={
             (props) => (<RecipeDetails { ...props } />)
+          }
+        />
+
+        <Route
+          exact
+          path="/drinks/:id/in-progress"
+          render={
+            (props) => (<RecipeInProgress { ...props } />)
+          }
+        />
+
+        <Route
+          exact
+          path="/meals/:id/in-progress"
+          render={
+            (props) => (<RecipeInProgress { ...props } />)
           }
         />
       </Switch>
