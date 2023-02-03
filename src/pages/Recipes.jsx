@@ -14,24 +14,24 @@ class Recipes extends Component {
         { history.location.pathname === '/meals'
         && (
           <div>
-            <CardMeal />
             <Header
               title="Meals"
               haveSearch
               history={ history }
             />
+            <CardMeal />
           </div>
         )}
 
         { history.location.pathname === '/drinks'
         && (
           <div>
-            <CardDrink />
             <Header
               title="Drinks"
               haveSearch
               history={ history }
             />
+            <CardDrink />
           </div>
         )}
         <Footer />
