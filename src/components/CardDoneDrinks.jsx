@@ -12,28 +12,28 @@ export default class CardDoneDrinks extends Component {
     const { recipe, index } = this.props;
     const { message } = this.state;
     return (
-      <div>
+      <div className="doneRecipe">
         <Link
-          to={ `drinks/${recipe.idDrink}` }
+          to={ `drinks/${recipe.id}` }
         >
           <div
             data-testid={ `${index}-recipe-card` }
           >
             <p data-testid={ `${index}-horizontal-name` }>
-              {recipe.strDrink}
+              {recipe.name}
             </p>
             <img
-              alt={ recipe.strDrink }
-              src={ recipe.strDrinkThumb }
+              alt={ recipe.name }
+              src={ recipe.image }
               data-testid={ `${index}-horizontal-image` }
               className="cardImage"
             />
             <p data-testid={ `${index}-horizontal-top-text` }>
-              {recipe.strAlcoholic}
+              {recipe.alcoholicOrNot}
             </p>
             <p data-testid={ `${index}-horizontal-done-date` }>
               Feito em
-              {` ${recipe.date}`}
+              {` ${recipe.doneDate}`}
             </p>
           </div>
         </Link>
@@ -42,9 +42,10 @@ export default class CardDoneDrinks extends Component {
           type="button"
           onClick={ () => {
             navigator.clipboard.writeText(window.location.href
-              .replace('done-recipes', `drinks/${recipe.idDrink}`));
+              .replace('done-recipes', `drinks/${recipe.id}`));
             this.setState({ message: true });
           } }
+          src={ shareIcon }
         >
           <img src={ shareIcon } alt="shareImg" />
         </button>
@@ -58,10 +59,10 @@ export default class CardDoneDrinks extends Component {
 
 CardDoneDrinks.propTypes = {
   recipe: PropTypes.shape({
-    idDrink: PropTypes.string,
-    strDrink: PropTypes.string,
-    strDrinkThumb: PropTypes.string,
-    strAlcoholic: PropTypes.string,
-    date: PropTypes.string,
+    id: PropTypes.string,
+    name: PropTypes.string,
+    image: PropTypes.string,
+    alcoholicOrNot: PropTypes.string,
+    doneDate: PropTypes.string,
   }),
 }.isRequired;

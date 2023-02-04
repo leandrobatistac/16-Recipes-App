@@ -8,54 +8,53 @@ export default class CardDoneMeal extends Component {
     message: false,
   };
 
-  separateTags({ strTags }) {
-    const allTags = strTags.split(',');
-    return (allTags);
-  }
-
   render() {
     const { recipe, index } = this.props;
     const { message } = this.state;
     return (
-      <div>
+      <div className="doneRecipe">
         <Link
-          to={ `meals/${recipe.idMeal}` }
+          to={ `meals/${recipe.id}` }
         >
           <div
             data-testid={ `${index}-recipe-card` }
             key={ index }
           >
             <p data-testid={ `${index}-horizontal-name` }>
-              {recipe.strMeal}
+              {recipe.name}
             </p>
             <img
-              alt={ recipe.strMeal }
-              src={ recipe.strMealThumb }
+              alt={ recipe.name }
+              src={ recipe.image }
               data-testid={ `${index}-horizontal-image` }
               className="cardImage"
             />
             <p data-testid={ `${index}-horizontal-top-text` }>
-              {recipe.strCategory}
-              <br />
-              {recipe.strArea}
+              { `${recipe.nationality} - ${recipe.category}` }
             </p>
-            <p
-              data-testid={
-                `${index}-${this.separateTags(recipe)[0]}-horizontal-tag`
+            <div>
+              Tags:
+              {
+                recipe.tags.length === 1 ? (
+                  <p data-testid={ `${index}-${recipe.tags[0]}-horizontal-tag` }>
+                    { recipe.tags[0] }
+                  </p>
+                )
+                  : (
+                    <div>
+                      <p data-testid={ `${index}-${recipe.tags[0]}-horizontal-tag` }>
+                        { recipe.tags[0] }
+                      </p>
+                      <p data-testid={ `${index}-${recipe.tags[1]}-horizontal-tag` }>
+                        { recipe.tags[1] }
+                      </p>
+                    </div>
+                  )
               }
-            >
-              {this.separateTags(recipe)[0]}
-            </p>
-            <p
-              data-testid={
-                `${index}-${this.separateTags(recipe)[1]}-horizontal-tag`
-              }
-            >
-              {this.separateTags(recipe)[1]}
-            </p>
+            </div>
             <p data-testid={ `${index}-horizontal-done-date` }>
               Feito em
-              {` ${recipe.date}`}
+              {` ${recipe.doneDate}`}
             </p>
           </div>
         </Link>
@@ -64,9 +63,10 @@ export default class CardDoneMeal extends Component {
           type="button"
           onClick={ () => {
             navigator.clipboard.writeText(window.location.href
-              .replace('done-recipes', `meals/${recipe.idMeal}`));
+              .replace('done-recipes', `meals/${recipe.id}`));
             this.setState({ message: true });
           } }
+          src={ shareIcon }
         >
           <img src={ shareIcon } alt="shareImg" />
         </button>

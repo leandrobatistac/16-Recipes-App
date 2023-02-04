@@ -1,7 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import Header from '../components/Header';
-import data from '../tests/data/doneRecipes';
 import CardDoneMeal from '../components/CardDoneMeal';
 import CardDoneDrinks from '../components/CardDoneDrinks';
 import Footer from '../components/Footer';
@@ -23,20 +22,15 @@ class DoneRecipes extends React.Component {
         doneDrinks: doneRecipes.filter((recipe) => this.checkDrink(recipe)),
         doneMeals: doneRecipes.filter((recipe) => this.checkMeal(recipe)),
       });
-      this.setState({
-        doneRecipes: data,
-        doneDrinks: data.filter((recipe) => this.checkDrink(recipe)),
-        doneMeals: data.filter((recipe) => this.checkMeal(recipe)),
-      });
     });
   }
 
-  checkMeal({ idMeal }) {
-    return (idMeal !== undefined);
+  checkMeal({ type }) {
+    return (type === 'meal');
   }
 
-  checkDrink({ idDrink }) {
-    return (idDrink !== undefined);
+  checkDrink({ type }) {
+    return (type === 'drink');
   }
 
   updateFilter(newFilter) {
@@ -78,10 +72,10 @@ class DoneRecipes extends React.Component {
           {
             filter === ''
               && doneRecipes.map((recipe, index) => {
-                if (recipe.idDrink) {
+                if (recipe.type === 'drink') {
                   return (
                     <CardDoneDrinks
-                      key={ recipe.idMeal }
+                      key={ recipe.id }
                       recipe={ recipe }
                       index={ index }
                       history={ history }
@@ -90,7 +84,7 @@ class DoneRecipes extends React.Component {
                 }
                 return (
                   <CardDoneMeal
-                    key={ `${recipe.idMeal} ${index}` }
+                    key={ recipe.id }
                     recipe={ recipe }
                     index={ index }
                   />
@@ -101,7 +95,7 @@ class DoneRecipes extends React.Component {
             filter === 'drinks'
               && doneDrinks.map((recipe, index) => (
                 <CardDoneDrinks
-                  key={ recipe.idMeal }
+                  key={ recipe.id }
                   recipe={ recipe }
                   index={ index }
                 />
@@ -111,7 +105,7 @@ class DoneRecipes extends React.Component {
             filter === 'meals'
               && doneMeals.map((recipe, index) => (
                 <CardDoneMeal
-                  key={ recipe.idMeal }
+                  key={ recipe.id }
                   recipe={ recipe }
                   index={ index }
                 />
