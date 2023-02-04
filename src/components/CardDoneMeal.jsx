@@ -1,8 +1,13 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 import shareIcon from '../images/shareIcon.svg';
 
 export default class CardDoneMeal extends Component {
+  state = {
+    message: false,
+  };
+
   separateTags({ strTags }) {
     const allTags = strTags.split(',');
     return (allTags);
@@ -10,6 +15,7 @@ export default class CardDoneMeal extends Component {
 
   render() {
     const { recipe, index } = this.props;
+    const { message } = this.state;
     return (
       <div>
         <Link
@@ -56,10 +62,29 @@ export default class CardDoneMeal extends Component {
         <button
           data-testid={ `${index}-horizontal-share-btn` }
           type="button"
+          onClick={ () => {
+            navigator.clipboard.writeText(window.location.href
+              .replace('done-recipes', `meals/${recipe.idMeal}`));
+            this.setState({ message: true });
+          } }
         >
           <img src={ shareIcon } alt="shareImg" />
         </button>
+        {
+          message && <p>Link copied!</p>
+        }
       </div>
     );
   }
 }
+
+CardDoneMeal.propTypes = {
+  recipe: PropTypes.shape({
+    idMeal: PropTypes.string,
+    strMeal: PropTypes.string,
+    strMealThumb: PropTypes.string,
+    strCategory: PropTypes.string,
+    strArea: PropTypes.string,
+    date: PropTypes.string,
+  }),
+}.isRequired;

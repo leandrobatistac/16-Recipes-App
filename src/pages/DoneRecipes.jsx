@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import Header from '../components/Header';
+import data from '../tests/data/doneRecipes';
 import CardDoneMeal from '../components/CardDoneMeal';
 import CardDoneDrinks from '../components/CardDoneDrinks';
 import Footer from '../components/Footer';
@@ -21,6 +22,11 @@ class DoneRecipes extends React.Component {
       this.setState({
         doneDrinks: doneRecipes.filter((recipe) => this.checkDrink(recipe)),
         doneMeals: doneRecipes.filter((recipe) => this.checkMeal(recipe)),
+      });
+      this.setState({
+        doneRecipes: data,
+        doneDrinks: data.filter((recipe) => this.checkDrink(recipe)),
+        doneMeals: data.filter((recipe) => this.checkMeal(recipe)),
       });
     });
   }
@@ -78,6 +84,7 @@ class DoneRecipes extends React.Component {
                       key={ recipe.idMeal }
                       recipe={ recipe }
                       index={ index }
+                      history={ history }
                     />
                   );
                 }
