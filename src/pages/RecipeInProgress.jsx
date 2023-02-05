@@ -96,11 +96,6 @@ function RecipesInProgress() {
     }
   };
 
-  useEffect(() => {
-    setFavorite();
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
-
   const saveRecipeLocalStorage = () => {
     const copyRecipe = [...[recipe]][0];
 

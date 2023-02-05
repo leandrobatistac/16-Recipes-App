@@ -23,7 +23,7 @@ class Header extends Component {
     return (
       <div>
         <h1 data-testid="page-title">{ title }</h1>
-        <button onClick={ () => history.push('/profile') }>
+        <button onClick={ () => history.push('/profile') } src={ profileIcon }>
           <img data-testid="profile-top-btn" src={ profileIcon } alt="profileImg" />
         </button>
         { haveSearch
