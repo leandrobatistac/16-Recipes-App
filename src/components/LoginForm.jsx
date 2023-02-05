@@ -38,6 +38,7 @@ class LoginForm extends Component {
     };
     localStorage.setItem('user', JSON.stringify(email));
     localStorage.setItem('doneRecipes', JSON.stringify([]));
+    localStorage.setItem('favoriteRecipes', JSON.stringify([]));
     history.push('/meals');
   };
 
