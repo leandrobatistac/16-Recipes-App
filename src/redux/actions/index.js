@@ -30,5 +30,4 @@ export const addToFavorites = (id, name) => ({
 export const removeFromFavorites = (id) => ({
   type: REMOVE_FROM_FAVORITES,
   payload: id,
-  //pão
 });
