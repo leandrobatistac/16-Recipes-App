@@ -1,6 +1,4 @@
 import React from 'react';
-import { connect } from 'react-redux';
-import { addToFavorites, removeFromFavorites } from '../redux/actions';
 import blackHeartIcon from '../images/blackHeartIcon.svg';
 import shareIcon from '../images/shareIcon.svg';
 
@@ -14,16 +12,6 @@ class FavoriteElements extends React.Component {
     const link = `http://localhost:3000/${type}-${id}`;
     navigator.clipboard.writeText(link);
     return <span>Link copied!</span>;
-  };
-  
-  toggleFavorite = id => {
-    const { favorites, addToFavorites, removeFromFavorites } = this.props;
-
-    if (favorites.includes(id)) {
-      removeFromFavorites(id);
-    } else {
-      addToFavorites(id);
-    }
   };
 
   cardFood = () => {
@@ -127,56 +115,31 @@ class FavoriteElements extends React.Component {
   };
 
   render() {
-    const { favorites } = this.props;
     const { type, card } = this.state;
     return (
       <div>
-        <div>
-          <button type="button" data-testid="filter-by-all-btn">All</button>
-          <button
-            type="button"
-            data-testid="filter-by-meal-btn"
-            onClick={ () => this.setState({ type: 'meals', card: false }) }
-          >
-            Meals
+        <button type="button" data-testid="filter-by-all-btn">All</button>
+        <button
+          type="button"
+          data-testid="filter-by-meal-btn"
+          onClick={ () => this.setState({ type: 'meals', card: false }) }
+        >
+          Meals
 
-          </button>
-          <button
-            type="button" 
-            data-testid="filter-by-drink-btn"
-            onClick={ () => this.setState({ type: 'drinks', card: false }) }
-          >
-            Drinks
+        </button>
+        <button
+          type='button data-testid="filter-by-drink-btn'
+          onClick={ () => this.setState({ type: 'drinks', card: false }) }
+        >
+          Drinks
 
-          </button>
-          {card && this.card()}
-          {type === 'drinks' ? this.cardDrink() : this.cardFood()}
-        </div>
-        <div>
-          <ul>
-            {favorites.map(favorite => (
-              <li key={favorite.id}>
-                {favorite.name}
-                <button onClick={() => this.toggleFavorite(favorite.id)}>
-                  {favorites.includes(favorite.id) ? 'Remove' : 'Add'}
-                </button>
-              </li>
-            ))}
-          </ul>
-        </div>
+        </button>
+        {card && this.card()}
+        {type === 'drinks' ? this.cardDrink() : this.cardFood()}
       </div>
 
     );
   }
 }
 
-const mapStateToProps = state => ({
-  favorites: state.favorites,
-});
-
-const mapDispatchToProps = {
-  addToFavorites,
-  removeFromFavorites,
-};
-
-export default connect(mapStateToProps, mapDispatchToProps)(FavoriteElements);
+export default FavoriteElements;
