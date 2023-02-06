@@ -2,6 +2,9 @@ import React from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { getDrinkByID, getDrinks, getMealByID, getMeals } from '../helpers/fetchAPI';
+import renderItems from '../Service/renderRecipeItems';
+import blackHeartIcon from '../images/blackHeartIcon.svg';
+import whiteHeartIcon from '../images/whiteHeartIcon.svg';
 
 class RecipeDetails extends React.Component {
   state = {
@@ -10,6 +13,7 @@ class RecipeDetails extends React.Component {
     arrayIngredients: [],
     recomendations: [],
     buttonClick: false,
+    favorite: false,
   };
 
   async componentDidMount() {
@@ -67,12 +71,32 @@ class RecipeDetails extends React.Component {
     navigator.clipboard.writeText(linkCompleto);
   };
 
+  favoriteItem = (objectRecipe) => {
+    const oldFavorites = JSON.parse(localStorage.getItem('favoriteRecipes'));
+    const myObj = renderItems(objectRecipe);
+    if (oldFavorites !== null) {
+      localStorage.setItem('favoriteRecipes', JSON.stringify([...oldFavorites, myObj]));
+    } else {
+      localStorage.setItem('favoriteRecipes', JSON.stringify(myObj));
+    }
+    this.setState({ favorite: true });
+  };
+
+  unfavoriteItem = (objectRecipe) => {
+    const oldFavorites = JSON.parse(localStorage.getItem('favoriteRecipes'));
+    const myObj = renderItems(objectRecipe);
+    const newFavorites = oldFavorites.filter((recipe) => recipe.id !== myObj.id);
+    localStorage.setItem('favoriteRecipes', JSON.stringify(newFavorites));
+    this.setState({ favorite: false });
+  };
+
   render() {
     const { typeRecipe,
       objectRecipe,
       arrayIngredients,
       recomendations,
-      buttonClick } = this.state;
+      buttonClick,
+      favorite } = this.state;
     const { history } = this.props;
     return (
       <div>
@@ -126,12 +150,29 @@ class RecipeDetails extends React.Component {
 
         { buttonClick ? <p data-testid="linkCopied">Link copied!</p> : null }
 
-        <button
-          type="button"
-          data-testid="favorite-btn"
-        >
-          Favoritar Receita
-        </button>
+        { favorite ? (
+          <button
+            type="button"
+            data-testid="favorite-btn"
+            onClick={ () => (
+              this.unfavoriteItem(objectRecipe)
+            ) }
+            src={ blackHeartIcon }
+          >
+            <img alt="Unfavorite Item" src={ blackHeartIcon } />
+          </button>
+        ) : (
+          <button
+            type="button"
+            data-testid="favorite-btn"
+            onClick={ () => (
+              this.favoriteItem(objectRecipe)
+            ) }
+            src={ whiteHeartIcon }
+          >
+            <img alt="Favorite Item" src={ whiteHeartIcon } />
+          </button>
+        ) }
 
         <button
           type="button"
