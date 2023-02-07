@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 import shareIcon from '../images/shareIcon.svg';
 
-export default class CardDoneMeal extends Component {
+export default class CardFavoriteDrinks extends Component {
   state = {
     message: false,
   };
@@ -14,11 +14,10 @@ export default class CardDoneMeal extends Component {
     return (
       <div className="doneRecipe">
         <Link
-          to={ `meals/${recipe.id}` }
+          to={ `drinks/${recipe.id}` }
         >
           <div
             data-testid={ `${index}-recipe-card` }
-            key={ index }
           >
             <p data-testid={ `${index}-horizontal-name` }>
               {recipe.name}
@@ -30,31 +29,7 @@ export default class CardDoneMeal extends Component {
               className="cardImage"
             />
             <p data-testid={ `${index}-horizontal-top-text` }>
-              { `${recipe.nationality} - ${recipe.category}` }
-            </p>
-            <div>
-              Tags:
-              {
-                recipe.tags.length === 1 ? (
-                  <p data-testid={ `${index}-${recipe.tags[0]}-horizontal-tag` }>
-                    { recipe.tags[0] }
-                  </p>
-                )
-                  : (
-                    <div>
-                      <p data-testid={ `${index}-${recipe.tags[0]}-horizontal-tag` }>
-                        { recipe.tags[0] }
-                      </p>
-                      <p data-testid={ `${index}-${recipe.tags[1]}-horizontal-tag` }>
-                        { recipe.tags[1] }
-                      </p>
-                    </div>
-                  )
-              }
-            </div>
-            <p data-testid={ `${index}-horizontal-done-date` }>
-              Feito em
-              {` ${recipe.doneDate}`}
+              {recipe.alcoholicOrNot}
             </p>
           </div>
         </Link>
@@ -63,7 +38,7 @@ export default class CardDoneMeal extends Component {
           type="button"
           onClick={ () => {
             navigator.clipboard.writeText(window.location.href
-              .replace('done-recipes', `meals/${recipe.id}`));
+              .replace('favorite-recipes', `drinks/${recipe.id}`));
             this.setState({ message: true });
           } }
           src={ shareIcon }
@@ -78,12 +53,11 @@ export default class CardDoneMeal extends Component {
   }
 }
 
-CardDoneMeal.propTypes = {
+CardFavoriteDrinks.propTypes = {
   recipe: PropTypes.shape({
     id: PropTypes.string,
     name: PropTypes.string,
     image: PropTypes.string,
-    tags: PropTypes.arrayOf(PropTypes.string),
-    doneDate: PropTypes.string,
+    alcoholicOrNot: PropTypes.string,
   }),
 }.isRequired;

@@ -3,12 +3,12 @@ import { screen } from '@testing-library/react';
 import { act } from 'react-dom/test-utils';
 import userEvent from '@testing-library/user-event';
 import { renderWithRouterAndRedux } from './helpers/renderWithRouterAndRedux';
-import DoneRecipes from '../pages/DoneRecipes';
-import data from './data/doneRecipes';
+import FavoriteRecipes from '../pages/FavoriteRecipes';
+import data from './data/favoriteRecipes';
 
-describe('Testa a página DoneRecipes', () => {
+describe('Testa a página FavoriteRecipes', () => {
   beforeEach(() => {
-    localStorage.setItem('doneRecipes', JSON.stringify(data));
+    localStorage.setItem('favoriteRecipes', JSON.stringify(data));
   });
 
   afterEach(() => {
@@ -16,10 +16,10 @@ describe('Testa a página DoneRecipes', () => {
   });
 
   it('should have the header with title and profile button', () => {
-    renderWithRouterAndRedux(<DoneRecipes />);
+    renderWithRouterAndRedux(<FavoriteRecipes />);
 
     const title = screen.getByRole('heading', {
-      name: /done recipes/i,
+      name: /favorite recipes/i,
     });
     const profileBtn = screen.getByRole('button', {
       name: /profileimg/i,
@@ -30,7 +30,7 @@ describe('Testa a página DoneRecipes', () => {
   });
 
   it('should have all filter buttons', () => {
-    renderWithRouterAndRedux(<DoneRecipes />);
+    renderWithRouterAndRedux(<FavoriteRecipes />);
 
     const allBtn = screen.getByRole('button', {
       name: /all/i,
@@ -48,22 +48,18 @@ describe('Testa a página DoneRecipes', () => {
   });
 
   it('should have both recipes appearing', () => {
-    renderWithRouterAndRedux(<DoneRecipes />);
+    renderWithRouterAndRedux(<FavoriteRecipes />);
 
     const mealTitle = screen.getByText(/corba/i);
     const mealImg = screen.getByRole('img', {
       name: /corba/i,
     });
     const mealOrigin = screen.getByText(/turkish - side/i);
-    const mealTags = screen.getByText(/tags:/i);
-    const mealDate = screen.getByText(/feito em 2023-02-05t04:11:13\.288z/i);
     const mealBtn = screen.getByTestId('0-horizontal-share-btn');
 
     expect(mealTitle).toBeInTheDocument();
     expect(mealImg).toBeInTheDocument();
     expect(mealOrigin).toBeInTheDocument();
-    expect(mealTags).toBeInTheDocument();
-    expect(mealDate).toBeInTheDocument();
     expect(mealBtn).toBeInTheDocument();
 
     const drinkTitle = screen.getByText(/gg/i);
@@ -71,18 +67,16 @@ describe('Testa a página DoneRecipes', () => {
       name: /gg/i,
     });
     const drinkAlcohol = screen.getByText(/optional alcohol/i);
-    const drinkDate = screen.getByText(/feito em 2023-02-05t04:11:24\.254z/i);
     const drinkBtn = screen.getByTestId('1-horizontal-share-btn');
 
     expect(drinkTitle).toBeInTheDocument();
     expect(drinkImg).toBeInTheDocument();
     expect(drinkAlcohol).toBeInTheDocument();
-    expect(drinkDate).toBeInTheDocument();
     expect(drinkBtn).toBeInTheDocument();
   });
 
   it('should change according to the filter', () => {
-    renderWithRouterAndRedux(<DoneRecipes />);
+    renderWithRouterAndRedux(<FavoriteRecipes />);
 
     const allBtn = screen.getByRole('button', {
       name: /all/i,
@@ -116,5 +110,18 @@ describe('Testa a página DoneRecipes', () => {
     const newDrinkTitle = screen.getByText(/gg/i);
     expect(newMealTitle).toBeInTheDocument();
     expect(newDrinkTitle).toBeInTheDocument();
+  });
+
+  it('should be able to unfavorite an item', () => {
+    renderWithRouterAndRedux(<FavoriteRecipes />);
+
+    const allUnfavBtns = screen.getAllByRole('img', {
+      name: /desfavoritar/i,
+    });
+
+    act(() => {
+      userEvent.click(allUnfavBtns[0]);
+      userEvent.click(allUnfavBtns[1]);
+    });
   });
 });
