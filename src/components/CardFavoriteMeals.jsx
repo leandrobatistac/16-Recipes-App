@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 import shareIcon from '../images/shareIcon.svg';
 
-export default class CardDoneMeal extends Component {
+export default class CardFavoriteMeals extends Component {
   state = {
     message: false,
   };
@@ -32,30 +32,6 @@ export default class CardDoneMeal extends Component {
             <p data-testid={ `${index}-horizontal-top-text` }>
               { `${recipe.nationality} - ${recipe.category}` }
             </p>
-            <div>
-              Tags:
-              {
-                recipe.tags.length === 1 ? (
-                  <p data-testid={ `${index}-${recipe.tags[0]}-horizontal-tag` }>
-                    { recipe.tags[0] }
-                  </p>
-                )
-                  : (
-                    <div>
-                      <p data-testid={ `${index}-${recipe.tags[0]}-horizontal-tag` }>
-                        { recipe.tags[0] }
-                      </p>
-                      <p data-testid={ `${index}-${recipe.tags[1]}-horizontal-tag` }>
-                        { recipe.tags[1] }
-                      </p>
-                    </div>
-                  )
-              }
-            </div>
-            <p data-testid={ `${index}-horizontal-done-date` }>
-              Feito em
-              {` ${recipe.doneDate}`}
-            </p>
           </div>
         </Link>
         <button
@@ -63,7 +39,7 @@ export default class CardDoneMeal extends Component {
           type="button"
           onClick={ () => {
             navigator.clipboard.writeText(window.location.href
-              .replace('done-recipes', `meals/${recipe.id}`));
+              .replace('favorite-recipes', `meals/${recipe.id}`));
             this.setState({ message: true });
           } }
           src={ shareIcon }
@@ -78,12 +54,11 @@ export default class CardDoneMeal extends Component {
   }
 }
 
-CardDoneMeal.propTypes = {
+CardFavoriteMeals.propTypes = {
   recipe: PropTypes.shape({
     id: PropTypes.string,
     name: PropTypes.string,
     image: PropTypes.string,
-    tags: PropTypes.arrayOf(PropTypes.string),
-    doneDate: PropTypes.string,
+    alcoholicOrNot: PropTypes.string,
   }),
 }.isRequired;
